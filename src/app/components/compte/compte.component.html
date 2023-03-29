@@ -1,0 +1,149 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Gestion de Comptes</h3>
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <p class="text-primary m-0 fw-bold">Liste des Comptes</p>
+        </div>
+        <div class="col-2 align-self-end">
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addCompteModal"><i class="bi bi-plus-lg"></i>Ajouter un Compte</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+<!--      Modal Popup      -->
+      <div class="modal fade" id="addCompteModal" tabindex="-1" aria-labelledby="addCompteModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-light">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un Compte</h1>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form [formGroup]="createCompteFormGroup" (ngSubmit)="handleCreateCompte()">
+              <div class="modal-body">
+                <div class="row mb-3">
+                  <label class="col-3 col-form-label" for="numClient">Numéro du Client :</label>
+                  <div class="col">
+                    <input type="text" class="form-control" id="numClient" formControlName="numClientCreate">
+<!--                    <datalist id="listClient">-->
+<!--                      <option>Option 1</option>-->
+<!--                      <option>Option 2</option>-->
+<!--                      <option>Option 3</option>-->
+<!--                    </datalist>-->
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-3 col-form-label" for="balance">Balance :</label>
+                  <div class="col input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" id="balance" formControlName="balance">
+                    <span class="input-group-text">0.00</span>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-3 col-form-label" for="typeCompte">Type de Compte :</label>
+                  <div class="col">
+                    <select class="form-select" name="Type Compte" id="typeCompte" aria-label="type de compte" formControlName="typeCompte">
+                      <option selected disabled>Choisir Le Type de Compte</option>
+                      <option value="1">Compte Courant</option>
+                      <option value="2">Compte Epargne</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-3 col-form-label" for="devise">Devise :</label>
+                  <div class="col">
+                    <select class="form-select" name="Devise" id="devise" aria-label="devise" formControlName="devise">
+                      <option selected disabled>Choisir La Devise</option>
+                      <option value="MAD">MAD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="USD">USD</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!--      Modal Popup End      -->
+      <form [formGroup]="CompteByRibFormGroup" (ngSubmit)="handleCompteByRib()">
+        <div class="input-group mb-3">
+          <span class="input-group-text">N° RIB</span>
+          <input class="form-control" formControlName="numRib" type="text" placeholder="N° RIB">
+          <button class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <form [formGroup]="CompteByNumClientFormGroup" (ngSubmit)="handleCompteByNumClient()">
+        <div class="input-group mb-3">
+          <span class="input-group-text">N° Client</span>
+          <input class="form-control" formControlName="numClient" type="text" placeholder="N° Client">
+          <button class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <div class="table-responsive table mt-2" id="dataTable1" role="grid" aria-describedby="dataTable_info">
+        <table class="table my-0" id="dataTable">
+          <thead>
+          <tr>
+            <th>N° RIB</th>
+            <th>Type de Compte</th>
+            <th>Balance</th>
+            <th>Date d'Ouverture</th>
+            <th>Devise</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider">
+          <tr *ngFor="let c of comptes | async">
+            <td>{{c.ribCompte}}</td>
+            <td>{{c.typeCompte}}</td>
+            <td>{{c.balance}}</td>
+            <td>{{c.dateCreation}}</td>
+            <td>{{c.devise}}</td>
+            <td>
+              <button class="btn btn-primary me-2" title="Détails"><i class="bi bi-receipt"></i></button>
+              <button class="btn btn-success me-2" title="Opération"><i class="bi bi-cash-coin"></i></button>
+              <button class="btn btn-danger" title="Supprimer"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td><strong>N° RIB</strong></td>
+            <td><strong>Type de Compte</strong></td>
+            <td><strong>Balance</strong></td>
+            <td><strong>Date d'Ouverture</strong></td>
+            <td><strong>Devise</strong></td>
+            <td><strong>Action</strong></td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-6 align-self-center">
+          <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+        </div>
+        <div class="col-md-6">
+          <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+              <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
