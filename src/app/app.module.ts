@@ -19,7 +19,7 @@ import { TierDetailsComponent } from './components/tier-details/tier-details.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+    HttpClientModule, 
     ReactiveFormsModule
   ],
   providers: [],

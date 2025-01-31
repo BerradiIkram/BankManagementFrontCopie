@@ -14,7 +14,8 @@ export class TierDetailsComponent {
 numClient!:string;
 personnemorale!:Personnemorale;
   private errorMessage: any;
-  constructor(private route:ActivatedRoute,private router:Router,private tierService:TierService,private compte :Compte) {
+
+  constructor(private route:ActivatedRoute,private router:Router,private tierService:TierService) {
     this.personnemorale=this.router.getCurrentNavigation()?.extras.state as Personnemorale;
   }
 ngOnInit():void {
