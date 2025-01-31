@@ -4,4 +4,5 @@ export interface Compte {
   balance : number;
   dateCreation : Date;
   devise : string;
+  test?: string;
 }
